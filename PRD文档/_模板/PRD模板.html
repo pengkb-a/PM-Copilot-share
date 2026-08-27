@@ -1,0 +1,1087 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>PRD 模板</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "PingFang SC", -apple-system, "Microsoft YaHei", sans-serif; background: #f5f6f7; color: #1f2329; line-height: 1.75; padding: 24px 0; counter-reset: h2; }
+
+/* ========== 工具栏 ========== */
+.toolbar { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid #dee0e3; padding: 12px 32px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: -24px 0 24px 0; }
+.toolbar .title { font-size: 14px; font-weight: 600; color: #1f2329; flex: 1; }
+.toolbar .hint { font-size: 12px; color: #86909c; margin-right: 12px; }
+.toolbar .status { font-size: 12px; color: #00b42a; margin-right: 12px; min-width: 90px; }
+.toolbar .copy-mode { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #4e5969; padding: 0 12px; border-left: 1px solid #dee0e3; border-right: 1px solid #dee0e3; height: 30px; }
+.toolbar .copy-mode select { font-size: 12px; padding: 4px 6px; border: 1px solid #dee0e3; border-radius: 3px; background: #fff; cursor: pointer; }
+.toolbar .copy-mode select:hover { border-color: #1456f0; }
+.btn { height: 30px; padding: 0 14px; border-radius: 4px; font-size: 13px; border: 1px solid #dee0e3; background: #fff; color: #1f2329; cursor: pointer; }
+.btn:hover { border-color: #1456f0; color: #1456f0; }
+.btn.primary { background: #1456f0; color: #fff; border-color: #1456f0; }
+.btn.danger { color: #f53f3f; border-color: #f53f3f; }
+
+/* ========== 文档容器 ========== */
+.container { max-width: 980px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 64px 80px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); counter-reset: h2; }
+
+/* ========== 标题样式 + 自动编号 ========== */
+h1 { font-size: 36px; font-weight: 700; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #f0f1f2; text-align: center; color: #1f2329; }
+
+h2 { font-size: 22px; font-weight: 600; margin-top: 44px; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #1456f0; color: #1f2329; counter-reset: h3; counter-increment: h2; }
+h2::before { content: counter(h2) ". "; }
+
+h3 { font-size: 18px; font-weight: 600; margin-top: 28px; margin-bottom: 12px; color: #1f2329; counter-reset: h4; counter-increment: h3; }
+h3::before { content: counter(h2) "." counter(h3) " "; color: #4e5969; }
+
+h4 { font-size: 16px; font-weight: 600; margin-top: 22px; margin-bottom: 10px; color: #1f2329; counter-reset: h5; counter-increment: h4; }
+h4::before { content: counter(h2) "." counter(h3) "." counter(h4) " "; color: #4e5969; }
+
+h5 { font-size: 15px; font-weight: 600; margin-top: 18px; margin-bottom: 8px; color: #4e5969; counter-reset: h6; counter-increment: h5; }
+h5::before { content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) " "; color: #86909c; }
+
+h6 { font-size: 14px; font-weight: 600; margin-top: 14px; margin-bottom: 8px; color: #4e5969; counter-increment: h6; }
+h6::before { content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) " "; color: #86909c; }
+
+h2.no-number, h3.no-number, h4.no-number, h5.no-number, h6.no-number { counter-increment: none; }
+h2.no-number::before, h3.no-number::before, h4.no-number::before, h5.no-number::before, h6.no-number::before { content: ""; }
+
+/* ========== 段落、列表 ========== */
+p { margin-bottom: 12px; font-size: 14px; color: #1f2329; }
+ul, ol { margin: 8px 0 16px 24px; }
+li { margin-bottom: 6px; font-size: 14px; }
+li > p { margin-bottom: 4px; }
+strong { color: #1f2329; font-weight: 600; }
+
+/* ========== 提示框 ========== */
+.note { background: #fff7e8; border-left: 3px solid #ff9a2e; padding: 10px 16px; margin: 12px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #4e5969; }
+.note-info { background: #e8f3ff; border-left: 3px solid #1456f0; padding: 10px 16px; margin: 12px 0; border-radius: 0 4px 4px 0; font-size: 13px; color: #4e5969; }
+
+/* ========== 表格 ========== */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; font-size: 13px; }
+table th { background: #f7f8fa; text-align: left; padding: 10px 12px; border: 1px solid #dee0e3; font-weight: 600; color: #1f2329; }
+table td { padding: 10px 12px; border: 1px solid #dee0e3; vertical-align: top; color: #1f2329; }
+table tr:hover td { background: #fafbfc; }
+.table-wrapper { position: relative; margin-bottom: 20px; }
+.table-section-row td { background: #f7f8fa !important; font-weight: 600; color: #4e5969; }
+.row-actions { display: flex; gap: 8px; margin-top: 4px; }
+.row-actions .mini-btn { font-size: 12px; color: #86909c; background: none; border: 1px dashed #dee0e3; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+.row-actions .mini-btn:hover { color: #1456f0; border-color: #1456f0; border-style: solid; }
+.row-actions .mini-btn.del { color: #f53f3f; }
+.row-actions .mini-btn.del:hover { border-color: #f53f3f; }
+.row-actions .mini-btn.copy { color: #00b42a; }
+.row-actions .mini-btn.copy:hover { border-color: #00b42a; border-style: solid; }
+.row-actions .mini-btn.copied { background: #e8f5ee; color: #00b42a; border-color: #00b42a; border-style: solid; }
+
+/* ========== 编辑态 ========== */
+[contenteditable="true"] { outline: 2px solid #1456f0; outline-offset: 2px; background: #f0f4ff; border-radius: 2px; padding: 2px 4px; min-width: 20px; }
+[contenteditable="true"]:focus { background: #fff; }
+.editable-hint { transition: background 0.15s; cursor: text; }
+.editable-hint:hover:not([contenteditable="true"]) { background: #f7f8fa; border-radius: 2px; }
+
+/* ========== 原型图区域 ========== */
+.prototype-block { margin: 16px 0 24px 0; border: 2px dashed #dee0e3; border-radius: 6px; padding: 16px; background: #fafbfc; transition: all 0.15s; cursor: pointer; }
+.prototype-block:hover { border-color: #1456f0; background: #f0f4ff; }
+.prototype-block.has-image { border-style: solid; border-color: #dee0e3; background: #fff; padding: 12px; cursor: default; }
+.prototype-block.has-image:hover { border-color: #dee0e3; background: #fff; }
+.prototype-label { font-size: 12px; color: #86909c; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+.prototype-label .actions { display: flex; gap: 8px; }
+.prototype-label .actions button { font-size: 12px; padding: 2px 8px; }
+.prototype-empty { text-align: center; padding: 32px 16px; color: #86909c; }
+.prototype-empty .icon { font-size: 32px; margin-bottom: 8px; }
+.prototype-empty .text { font-size: 13px; }
+.prototype-empty .hint { font-size: 12px; color: #c9cdd4; margin-top: 6px; }
+.prototype-image { max-width: 100%; height: auto; border-radius: 4px; display: block; }
+.prototype-caption { font-size: 12px; color: #86909c; text-align: center; margin-top: 8px; font-style: italic; }
+.drag-over { border-color: #1456f0 !important; background: #e8f3ff !important; }
+
+/* ========== 代码、链接 ========== */
+code { background: #f5f6f7; padding: 2px 6px; border-radius: 3px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; color: #f53f3f; }
+pre { background: #f5f6f7; padding: 16px; border-radius: 4px; overflow-x: auto; margin: 12px 0; font-size: 13px; }
+a { color: #1456f0; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr { border: none; border-top: 1px solid #dee0e3; margin: 32px 0; }
+
+/* ========== 打印 ========== */
+@media print {
+  .toolbar, .row-actions, .prototype-block .actions { display: none !important; }
+  body { background: #fff; padding: 0; }
+  .container { box-shadow: none; padding: 0; max-width: 100%; }
+  .prototype-block { border: 1px solid #dee0e3; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <span class="title">PRD 编辑器</span>
+  <span class="status" id="status">已加载</span>
+  <span class="hint">💡 双击文字编辑 · 双击图片框上传 · 也可粘贴/拖拽图片</span>
+  <span class="copy-mode" title="选中表格内容后 Ctrl+C 复制时的格式">
+    复制为：
+    <select id="copy-mode-select" onchange="onCopyModeChange()">
+      <option value="list">列表（飞书友好）</option>
+      <option value="table">表格</option>
+      <option value="auto">智能（多行→列表，单行→表格）</option>
+    </select>
+  </span>
+  <button class="btn" onclick="exportHTML()">📥 导出 HTML</button>
+  <button class="btn" onclick="exportWord()">📄 导出 Word</button>
+  <button class="btn" onclick="exportMarkdown()">📝 导出 Markdown</button>
+  <button class="btn" onclick="window.print()">🖨️ 打印 / PDF</button>
+  <button class="btn danger" onclick="resetTemplate()">↺ 重置模板</button>
+</div>
+
+<div class="container" id="prd-content">
+
+<h1 class="editable-hint">PRD - [功能名称]</h1>
+
+<!-- 1. 修订记录 -->
+<h2 class="editable-hint">修订记录</h2>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:80px;">版本号</th><th style="width:100px;">修订人</th><th style="width:120px;">修订时间</th><th>修订内容</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">V1.0</td><td class="editable-hint">[姓名]</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">创建文档</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<!-- 2. 需求概述 -->
+<h2 class="editable-hint">需求概述</h2>
+
+<h3 class="editable-hint">需求背景</h3>
+<p class="editable-hint">描述当前现状是什么、存在什么问题、为什么现在要做。如果是二期/迭代需求，先说明一期做了什么、解决了什么，再说二期要解决什么。长度控制在 3-5 段，每段 2-4 句话。</p>
+
+<h3 class="editable-hint">需求目标</h3>
+<ul>
+<li class="editable-hint">目标 1（动词开头，说明做什么、达到什么效果）</li>
+<li class="editable-hint">目标 2</li>
+<li class="editable-hint">目标 3</li>
+</ul>
+
+<h3 class="editable-hint">需求价值 & 预估收益</h3>
+<ul>
+<li class="editable-hint">价值点 1</li>
+<li class="editable-hint">价值点 2（数据暂时无法量化的写"具体量化数据待上线后统计"）</li>
+</ul>
+
+<h3 class="editable-hint">本期功能清单</h3>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>系统</th><th>顶级模块</th><th>菜单</th><th>功能</th><th style="width:60px;">优先级</th><th style="width:80px;">测试范围</th><th>功能描述</th></tr></thead>
+<tbody>
+<tr>
+<td class="editable-hint">XX系统</td>
+<td class="editable-hint">[模块名]</td>
+<td class="editable-hint">[一级/二级]</td>
+<td class="editable-hint">[功能名]</td>
+<td class="editable-hint">P0</td>
+<td class="editable-hint">需测试</td>
+<td class="editable-hint">[一句话说清楚这个功能做什么]</td>
+</tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<!-- 3. 名词解释 -->
+<h2 class="editable-hint">名词解释</h2>
+<p class="editable-hint" style="font-size:13px;color:#86909c;">只收录 PRD 中首次出现且读者可能不熟悉的专业术语。业务通用概念已在项目背景中定义，不需要重复收录。</p>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:200px;">名词</th><th>解释</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">[术语]</td><td class="editable-hint">[一句话解释：是什么 + 用在哪里]</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<!-- 4. 功能框架 -->
+<h2 class="editable-hint">功能框架</h2>
+
+<h3 class="editable-hint">整体功能框架</h3>
+<p class="editable-hint">用文字段落描述系统定位，再用短横线列表说明各层职责。不需要画架构图。</p>
+
+<h3 class="editable-hint">业务流程</h3>
+<p class="editable-hint">根据流程类型选择：多系统交互用 flowchart TD（用 subgraph 区分各系统）；接口调用时序用 sequenceDiagram；状态流转用 stateDiagram-v2。</p>
+
+<h4 class="editable-hint">[业务流程名称]</h4>
+<pre class="editable-hint">// 在这里粘贴 mermaid 流程图代码
+flowchart TD
+    A[开始] --&gt; B[处理]
+    B --&gt; C[结束]</pre>
+
+<h4 class="editable-hint">状态设计</h4>
+
+<h5 class="editable-hint">状态字段说明</h5>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>字段名</th><th>说明</th><th>是否独立字段</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">[状态字段]</td><td class="editable-hint">[作用]</td><td class="editable-hint">是/否</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<h5 class="editable-hint">[状态名称]枚举值</h5>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:120px;">状态</th><th>含义</th><th>计算/触发条件</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">[状态值]</td><td class="editable-hint">[含义]</td><td class="editable-hint">[计算逻辑]</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<h5 class="editable-hint">状态流转图</h5>
+<pre class="editable-hint">stateDiagram-v2
+    [*] --&gt; 待审核
+    待审核 --&gt; 已通过 : 审核通过
+    待审核 --&gt; 已驳回 : 审核驳回</pre>
+
+<!-- 5. 原型文件 -->
+<h2 class="editable-hint">原型文件</h2>
+<ul>
+<li class="editable-hint"><a href="#" class="editable-hint">[原型文件名/链接]</a></li>
+</ul>
+
+<!-- 6. 需求详情 -->
+<h2 class="editable-hint">需求详情</h2>
+<p class="editable-hint" style="font-size:13px;color:#86909c;">列举功能实现的背景限制、设计考虑，方便后续遇到疑惑时知晓为什么这么实现。复杂逻辑用表格等比纯文字更好理解的方式呈现。功能说明的描述需保障逻辑闭环。</p>
+
+<h3 class="editable-hint">[一级功能模块名称]（新增/变更）</h3>
+<p class="editable-hint"><strong>路径：</strong>一级菜单 &gt; 二级菜单</p>
+<p class="editable-hint"><strong>功能介绍：</strong>一句话描述这个模块做什么。</p>
+
+<div class="note editable-hint">💡 [重要背景说明或约束条件，按需填写]</div>
+
+<h4 class="editable-hint">[页面/Tab 名称]（新增/变更）</h4>
+
+<!-- 页面级原型图 -->
+<div class="prototype-block" data-prototype-id="page-1" onclick="handlePrototypeClick(event, this)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, this)">
+  <div class="prototype-label">
+    <span>📐 页面原型图</span>
+    <span class="actions"></span>
+  </div>
+  <div class="prototype-empty">
+    <div class="icon">🖼️</div>
+    <div class="text">双击此处上传图片，或拖拽图片到这里</div>
+    <div class="hint">支持复制粘贴：选中区域后 Ctrl+V</div>
+  </div>
+</div>
+
+<h5 class="editable-hint">页面说明</h5>
+
+<h6 class="editable-hint">字段说明</h6>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:160px;">字段</th><th>说明</th><th style="width:200px;">示例</th></tr></thead>
+<tbody>
+<tr class="table-section-row"><td colspan="3" class="editable-hint">筛选区</td></tr>
+<tr><td class="editable-hint">[字段名]</td><td class="editable-hint">[控件类型]，[枚举值]，默认[默认值]</td><td class="editable-hint">[示例]</td></tr>
+<tr class="table-section-row"><td colspan="3" class="editable-hint">列表区</td></tr>
+<tr><td class="editable-hint">[字段名]</td><td class="editable-hint">[显示样式]，空值显示"—"</td><td class="editable-hint">[示例]</td></tr>
+<tr><td class="editable-hint">操作</td><td class="editable-hint">[操作按钮列表及显示条件]</td><td class="editable-hint">—</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<h6 class="editable-hint">数据来源</h6>
+<ul>
+<li class="editable-hint">[字段名]：[从哪个系统/接口获取，同步方式]</li>
+<li class="editable-hint">[字段名]：[计算逻辑或来源说明]</li>
+</ul>
+
+<h6 class="editable-hint">数据规则</h6>
+<ul>
+<li class="editable-hint">[规则 1]</li>
+<li class="editable-hint">[规则 2]</li>
+</ul>
+
+<h6 class="editable-hint">排序规则</h6>
+<ul>
+<li class="editable-hint">[默认排序字段和方向]</li>
+</ul>
+
+<h5 class="editable-hint">功能操作</h5>
+
+<h6 class="editable-hint">[功能名称]</h6>
+
+<!-- 功能级原型图（弹窗/操作截图） -->
+<div class="prototype-block" data-prototype-id="func-1" onclick="handlePrototypeClick(event, this)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, this)">
+  <div class="prototype-label">
+    <span>📐 功能/弹窗截图</span>
+    <span class="actions"></span>
+  </div>
+  <div class="prototype-empty">
+    <div class="icon">🖼️</div>
+    <div class="text">双击此处上传弹窗/操作截图</div>
+    <div class="hint">如功能涉及弹窗、确认框、表单等，建议放截图</div>
+  </div>
+</div>
+
+<p class="editable-hint"><strong>功能可用条件：</strong></p>
+<ul>
+<li class="editable-hint">[什么角色可以操作]</li>
+<li class="editable-hint">[什么状态下可以操作]</li>
+</ul>
+
+<p class="editable-hint"><strong>字段说明：</strong></p>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:160px;">字段</th><th style="width:120px;">控件类型</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">[字段名]</td><td class="editable-hint">[控件类型]</td><td class="editable-hint">[说明，包括默认值、联动规则]</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<p class="editable-hint"><strong>交互逻辑：</strong></p>
+<ul>
+<li class="editable-hint">[操作步骤 1]</li>
+<li class="editable-hint">[操作步骤 2，包括联动规则、提示文案]</li>
+</ul>
+
+<p class="editable-hint"><strong>提交逻辑：</strong></p>
+<ul>
+<li class="editable-hint">[提交后做什么]</li>
+<li class="editable-hint">[状态变更规则]</li>
+<li class="editable-hint">[回传/通知逻辑]</li>
+<li class="editable-hint">[并发处理：同一操作并发时后者提示"XX"]</li>
+<li class="editable-hint">[失败处理：失败时如何重试、如何通知]</li>
+</ul>
+
+<h5 class="editable-hint">其他说明</h5>
+<ul>
+<li class="editable-hint"><strong>导出：</strong>[导出范围、格式、下载方式]</li>
+<li class="editable-hint"><strong>分页：</strong>默认展示 [N] 行，超出分页</li>
+<li class="editable-hint"><strong>空状态：</strong>列表无数据时显示"[文案]"；筛选无结果时显示"[文案]"；字段值为空时统一显示"—"</li>
+</ul>
+
+<!-- 7. 地址链接 -->
+<h2 class="editable-hint">地址链接</h2>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:200px;">类型</th><th>链接</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">原型文件</td><td class="editable-hint"><a href="#" class="editable-hint">[飞书/Figma 链接]</a></td></tr>
+<tr><td class="editable-hint">设计稿</td><td class="editable-hint"><a href="#" class="editable-hint">[链接]</a></td></tr>
+<tr><td class="editable-hint">技术方案</td><td class="editable-hint"><a href="#" class="editable-hint">[链接]</a></td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+<!-- 8. 上线计划 -->
+<h2 class="editable-hint">上线计划</h2>
+<div class="table-wrapper">
+<table>
+<thead><tr><th style="width:160px;">阶段</th><th style="width:140px;">计划时间</th><th>关键事项</th><th style="width:120px;">负责人</th></tr></thead>
+<tbody>
+<tr><td class="editable-hint">需求评审</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">完成 PRD 评审，达成一致意见</td><td class="editable-hint">[姓名]</td></tr>
+<tr><td class="editable-hint">技术评审</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">技术方案评审通过</td><td class="editable-hint">[姓名]</td></tr>
+<tr><td class="editable-hint">开发完成</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">前后端开发完成，提测</td><td class="editable-hint">[姓名]</td></tr>
+<tr><td class="editable-hint">测试完成</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">回归测试通过，达到上线标准</td><td class="editable-hint">[姓名]</td></tr>
+<tr><td class="editable-hint">正式上线</td><td class="editable-hint">YYYY-MM-DD</td><td class="editable-hint">部署上线，灰度/全量</td><td class="editable-hint">[姓名]</td></tr>
+</tbody>
+</table>
+<div class="row-actions"><button class="mini-btn" onclick="addRow(this)">+ 添加行</button><button class="mini-btn del" onclick="delLastRow(this)">- 删除最后一行</button><button class="mini-btn copy" onclick="copyAsList(this)" title="复制为列表格式（粘贴到飞书后是原生列表，不是Excel）"> 复制为列表</button><button class="mini-btn copy" onclick="copyAsTable(this)" title="复制为表格（保留表格结构）"> 复制为表格</button></div>
+</div>
+
+</div>
+
+<input type="file" id="hidden-file-input" accept="image/*" style="display:none;">
+
+<script>
+const STORAGE_KEY = 'prd-' + (location.pathname.split('/').pop() || 'template');
+let saveTimer = null;
+let currentPrototypeBlock = null;
+
+// ========== 文本编辑 ==========
+document.addEventListener('dblclick', function(e) {
+  // 原型框单独处理
+  if (e.target.closest('.prototype-block')) return;
+  const target = e.target.closest('.editable-hint, td, th');
+  if (!target || target.tagName === 'BUTTON') return;
+  if (target.getAttribute('contenteditable') === 'true') return;
+  target.setAttribute('contenteditable', 'true');
+  target.focus();
+  const range = document.createRange();
+  range.selectNodeContents(target);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+});
+
+document.addEventListener('blur', function(e) {
+  if (e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true') {
+    e.target.setAttribute('contenteditable', 'false');
+    saveContent();
+  }
+}, true);
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && e.target.getAttribute && e.target.getAttribute('contenteditable') === 'true') {
+    e.target.blur();
+  }
+});
+
+// ========== 原型图：双击上传 ==========
+function handlePrototypeClick(e, block) {
+  if (e.detail !== 2) return; // 双击
+  if (e.target.tagName === 'BUTTON') return;
+  if (block.classList.contains('has-image') && e.target.tagName === 'IMG') return;
+  uploadImage(block);
+}
+
+function uploadImage(block) {
+  currentPrototypeBlock = block;
+  document.getElementById('hidden-file-input').click();
+}
+
+document.getElementById('hidden-file-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file && currentPrototypeBlock) {
+    readImageFile(file, currentPrototypeBlock);
+  }
+  e.target.value = '';
+});
+
+function readImageFile(file, block) {
+  if (!file.type.startsWith('image/')) {
+    alert('请选择图片文件');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    setImageInBlock(block, ev.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function setImageInBlock(block, dataUrl) {
+  const label = block.querySelector('.prototype-label');
+  block.classList.add('has-image');
+  block.innerHTML = '';
+  block.appendChild(label);
+  label.querySelector('.actions').innerHTML = '<button class="btn" onclick="event.stopPropagation();replaceImage(this)">替换</button><button class="btn danger" onclick="event.stopPropagation();removeImage(this)">删除</button>';
+  const img = document.createElement('img');
+  img.className = 'prototype-image';
+  img.src = dataUrl;
+  block.appendChild(img);
+  const caption = document.createElement('div');
+  caption.className = 'prototype-caption editable-hint';
+  caption.textContent = '图片说明（双击编辑）';
+  block.appendChild(caption);
+  saveContent();
+}
+
+function replaceImage(btn) {
+  const block = btn.closest('.prototype-block');
+  uploadImage(block);
+}
+
+function removeImage(btn) {
+  if (!confirm('确定删除图片？')) return;
+  const block = btn.closest('.prototype-block');
+  block.classList.remove('has-image');
+  const labelText = block.querySelector('.prototype-label > span').textContent;
+  block.innerHTML = `
+    <div class="prototype-label">
+      <span>${labelText}</span>
+      <span class="actions"></span>
+    </div>
+    <div class="prototype-empty">
+      <div class="icon">🖼️</div>
+      <div class="text">双击此处上传图片，或拖拽图片到这里</div>
+      <div class="hint">支持复制粘贴：选中区域后 Ctrl+V</div>
+    </div>
+  `;
+  saveContent();
+}
+
+// ========== 拖拽上传 ==========
+function handleDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function handleDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+function handleDrop(e, block) {
+  e.preventDefault();
+  block.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) readImageFile(file, block);
+}
+
+// ========== 粘贴上传 ==========
+document.addEventListener('paste', function(e) {
+  const items = e.clipboardData.items;
+  for (const item of items) {
+    if (item.type.indexOf('image') !== -1) {
+      // 找到当前激活的或最近的 prototype-block
+      let block = null;
+      const sel = window.getSelection();
+      if (sel.rangeCount > 0) {
+        const node = sel.getRangeAt(0).startContainer;
+        block = (node.nodeType === 1 ? node : node.parentElement).closest('.prototype-block');
+      }
+      if (!block) {
+        // 找视口内最近的空 prototype-block
+        const blocks = document.querySelectorAll('.prototype-block:not(.has-image)');
+        for (const b of blocks) {
+          const rect = b.getBoundingClientRect();
+          if (rect.top >= 0 && rect.top < window.innerHeight) {
+            block = b;
+            break;
+          }
+        }
+      }
+      if (block) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        readImageFile(file, block);
+        return;
+      }
+    }
+  }
+});
+
+// ========== 状态、保存、加载 ==========
+function setStatus(text, color) {
+  const el = document.getElementById('status');
+  el.textContent = text;
+  el.style.color = color || '#00b42a';
+}
+
+function saveContent() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      const content = document.getElementById('prd-content').innerHTML;
+      localStorage.setItem(STORAGE_KEY, content);
+      setStatus('✓ 已保存', '#00b42a');
+      setTimeout(() => setStatus('就绪', '#86909c'), 2000);
+    } catch (err) {
+      if (err.name === 'QuotaExceededError') {
+        setStatus('存储已满', '#f53f3f');
+        alert('浏览器存储已满，建议导出 HTML 后重置模板。或减少图片数量/压缩图片大小。');
+      } else {
+        setStatus('保存失败', '#f53f3f');
+      }
+    }
+  }, 300);
+}
+
+function loadContent() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      document.getElementById('prd-content').innerHTML = saved;
+      setStatus('✓ 已恢复编辑', '#00b42a');
+      setTimeout(() => setStatus('就绪', '#86909c'), 2000);
+    } else {
+      setStatus('就绪', '#86909c');
+    }
+  } catch (err) {
+    console.error('加载失败', err);
+  }
+}
+
+// ========== 表格操作 ==========
+function addRow(btn) {
+  const wrapper = btn.closest('.table-wrapper');
+  const table = wrapper.querySelector('table');
+  const tbody = table.querySelector('tbody');
+  const colCount = table.querySelectorAll('thead th').length;
+  const newRow = document.createElement('tr');
+  for (let i = 0; i < colCount; i++) {
+    const td = document.createElement('td');
+    td.className = 'editable-hint';
+    td.textContent = '';
+    newRow.appendChild(td);
+  }
+  tbody.appendChild(newRow);
+  saveContent();
+}
+
+function delLastRow(btn) {
+  const wrapper = btn.closest('.table-wrapper');
+  const tbody = wrapper.querySelector('tbody');
+  const rows = tbody.querySelectorAll('tr');
+  if (rows.length > 1) {
+    if (confirm('确定删除最后一行？')) {
+      rows[rows.length - 1].remove();
+      saveContent();
+    }
+  } else {
+    alert('至少保留一行');
+  }
+}
+
+// ========== 复制为列表（飞书友好） ==========
+function copyAsList(btn) {
+  const wrapper = btn.closest('.table-wrapper');
+  const table = wrapper.querySelector('table');
+  const headers = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+
+  // 构造 HTML 列表（飞书会识别为原生列表）
+  let html = '<ul>';
+  let plain = '';
+  for (const tr of table.querySelectorAll('tbody tr')) {
+    const tds = [...tr.querySelectorAll('td')];
+    // 处理跨列分组行
+    if (tds.length === 1 && tds[0].colSpan > 1) {
+      html += `<li><strong>${escapeHtml(tds[0].textContent.trim())}</strong></li>`;
+      plain += '• ' + tds[0].textContent.trim() + '\n';
+      continue;
+    }
+    if (tds.length !== headers.length) continue;
+
+    // 第一列作为标题，其余作为子项 "标题：值，值，值"
+    const title = tds[0].textContent.trim();
+    const details = [];
+    for (let i = 1; i < tds.length; i++) {
+      const val = tds[i].textContent.trim();
+      if (val && val !== '—') details.push(`${headers[i]}：${val}`);
+    }
+
+    if (details.length === 0) {
+      html += `<li>${escapeHtml(title)}</li>`;
+      plain += '• ' + title + '\n';
+    } else {
+      html += `<li><strong>${escapeHtml(title)}</strong>（${escapeHtml(details.join('；'))}）</li>`;
+      plain += `• ${title}（${details.join('；')}）\n`;
+    }
+  }
+  html += '</ul>';
+
+  copyToClipboard(html, plain, btn, '已复制为列表');
+}
+
+// ========== 复制为表格（保留 HTML 表格结构） ==========
+function copyAsTable(btn) {
+  const wrapper = btn.closest('.table-wrapper');
+  const table = wrapper.querySelector('table');
+  // 克隆并清理掉编辑相关的 class 和属性
+  const cloned = table.cloneNode(true);
+  cloned.removeAttribute('contenteditable');
+  cloned.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  cloned.querySelectorAll('.editable-hint').forEach(el => el.classList.remove('editable-hint'));
+
+  const html = cloned.outerHTML;
+
+  // 同时构造纯文本版本（Tab 分隔）
+  const headers = [...cloned.querySelectorAll('thead th')].map(th => th.textContent.trim());
+  let plain = headers.join('\t') + '\n';
+  for (const tr of cloned.querySelectorAll('tbody tr')) {
+    const tds = [...tr.querySelectorAll('td')].map(td => td.textContent.trim());
+    plain += tds.join('\t') + '\n';
+  }
+
+  copyToClipboard(html, plain, btn, '已复制为表格');
+}
+
+function copyToClipboard(html, plain, btn, successText) {
+  // 用 ClipboardItem API（现代浏览器都支持）
+  if (navigator.clipboard && window.ClipboardItem) {
+    const item = new ClipboardItem({
+      'text/html': new Blob([html], { type: 'text/html' }),
+      'text/plain': new Blob([plain], { type: 'text/plain' })
+    });
+    navigator.clipboard.write([item]).then(() => {
+      flashCopySuccess(btn, successText);
+    }).catch(err => {
+      console.error('复制失败', err);
+      fallbackCopy(html, btn, successText);
+    });
+  } else {
+    fallbackCopy(html, btn, successText);
+  }
+}
+
+function fallbackCopy(html, btn, successText) {
+  // 老浏览器降级方案：临时插入隐藏 div 然后用 execCommand
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  div.style.position = 'fixed';
+  div.style.left = '-9999px';
+  document.body.appendChild(div);
+  const range = document.createRange();
+  range.selectNode(div);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  try {
+    document.execCommand('copy');
+    flashCopySuccess(btn, successText);
+  } catch (err) {
+    alert('复制失败，请手动选择');
+  }
+  sel.removeAllRanges();
+  document.body.removeChild(div);
+}
+
+function flashCopySuccess(btn, text) {
+  const original = btn.innerHTML;
+  btn.innerHTML = '✓ ' + text;
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.classList.remove('copied');
+  }, 1500);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ========== 全局复制拦截（直接 Ctrl+C 即可，无需按钮） ==========
+let copyMode = localStorage.getItem('prd-copy-mode') || 'list'; // list / table / auto
+
+function onCopyModeChange() {
+  copyMode = document.getElementById('copy-mode-select').value;
+  localStorage.setItem('prd-copy-mode', copyMode);
+}
+
+function initCopyMode() {
+  const select = document.getElementById('copy-mode-select');
+  if (select) select.value = copyMode;
+}
+
+document.addEventListener('copy', function(e) {
+  // 用户在编辑态下（contenteditable=true）正常复制，不拦截
+  const active = document.activeElement;
+  if (active && active.getAttribute && active.getAttribute('contenteditable') === 'true') return;
+
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return;
+  const range = sel.getRangeAt(0);
+  if (range.collapsed) return;
+
+  // 判断选区是否覆盖了表格内容
+  const container = range.commonAncestorContainer;
+  const node = container.nodeType === 1 ? container : container.parentElement;
+
+  // 找到选区涉及的所有表格行
+  const fragment = range.cloneContents();
+  const rowsInSelection = fragment.querySelectorAll('tr');
+
+  // 选区里没有表格行 → 不拦截，让浏览器走默认复制
+  if (rowsInSelection.length === 0) return;
+
+  // 找到该选区所属的 table（取第一个被选中行的祖先 table）
+  const firstSelectedRow = node.closest('tr') || (node.querySelector ? node.querySelector('tr') : null);
+  let table = null;
+  if (firstSelectedRow) {
+    table = firstSelectedRow.closest('table');
+  } else {
+    table = node.closest('table');
+  }
+  if (!table) return;
+
+  // 取该 table 的表头
+  const headers = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+  if (headers.length === 0) return;
+
+  // 决定输出格式
+  let mode = copyMode;
+  if (mode === 'auto') {
+    mode = rowsInSelection.length > 1 ? 'list' : 'table';
+  }
+
+  // 收集选区内的所有数据行（来自 fragment）
+  const dataRows = [];
+  for (const tr of rowsInSelection) {
+    const tds = [...tr.querySelectorAll('td')];
+    if (tds.length === 0) continue; // 跳过表头行
+    if (tds.length === 1 && tds[0].colSpan > 1) {
+      dataRows.push({ type: 'section', text: tds[0].textContent.trim() });
+    } else {
+      dataRows.push({ type: 'data', cells: tds.map(td => td.textContent.trim()) });
+    }
+  }
+
+  if (dataRows.length === 0) return;
+
+  let html = '';
+  let plain = '';
+
+  if (mode === 'list') {
+    html = '<ul>';
+    for (const row of dataRows) {
+      if (row.type === 'section') {
+        html += `<li><strong>${escapeHtml(row.text)}</strong></li>`;
+        plain += '• ' + row.text + '\n';
+        continue;
+      }
+      const cells = row.cells;
+      if (cells.length !== headers.length) continue;
+      const title = cells[0];
+      const details = [];
+      for (let i = 1; i < cells.length; i++) {
+        const val = cells[i];
+        if (val && val !== '—') details.push(`${headers[i]}：${val}`);
+      }
+      if (details.length === 0) {
+        html += `<li>${escapeHtml(title)}</li>`;
+        plain += '• ' + title + '\n';
+      } else {
+        html += `<li><strong>${escapeHtml(title)}</strong>（${escapeHtml(details.join('；'))}）</li>`;
+        plain += `• ${title}（${details.join('；')}）\n`;
+      }
+    }
+    html += '</ul>';
+  } else {
+    // table 模式：复制为标准表格
+    html = '<table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;"><thead><tr>';
+    for (const h of headers) html += `<th>${escapeHtml(h)}</th>`;
+    html += '</tr></thead><tbody>';
+    plain = headers.join('\t') + '\n';
+    for (const row of dataRows) {
+      if (row.type === 'section') {
+        html += `<tr><td colspan="${headers.length}"><strong>${escapeHtml(row.text)}</strong></td></tr>`;
+        plain += row.text + '\n';
+        continue;
+      }
+      html += '<tr>';
+      for (const c of row.cells) html += `<td>${escapeHtml(c)}</td>`;
+      html += '</tr>';
+      plain += row.cells.join('\t') + '\n';
+    }
+    html += '</tbody></table>';
+  }
+
+  // 写入剪贴板
+  e.clipboardData.setData('text/html', html);
+  e.clipboardData.setData('text/plain', plain);
+  e.preventDefault();
+
+  // 状态提示
+  const modeText = mode === 'list' ? '列表' : '表格';
+  setStatus(`✓ 已复制为${modeText}`, '#00b42a');
+  setTimeout(() => setStatus('就绪', '#86909c'), 1500);
+});
+
+window.addEventListener('load', function() { initCopyMode(); loadContent(); });
+
+// ========== 导出 ==========
+function exportHTML() {
+  const content = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const title = document.querySelector('h1').textContent.trim().replace(/[\\/:*?"<>|]/g, '_');
+  a.href = url;
+  a.download = title + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ========== 导出 Word（生成 .doc，Word/WPS 可直接打开） ==========
+function exportWord() {
+  // 用 CSS counter 实现的章节编号在 Word 里不工作，需要把编号写死到标题里
+  const root = document.getElementById('prd-content').cloneNode(true);
+
+  // 移除所有可编辑标记和工具按钮
+  root.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  root.querySelectorAll('.editable-hint').forEach(el => el.classList.remove('editable-hint'));
+  root.querySelectorAll('.row-actions').forEach(el => el.remove());
+  root.querySelectorAll('.prototype-block .actions').forEach(el => el.innerHTML = '');
+
+  // 处理空的原型图占位框：保留提示文字（Word 不显示双击按钮）
+  root.querySelectorAll('.prototype-block').forEach(block => {
+    if (!block.classList.contains('has-image')) {
+      const label = block.querySelector('.prototype-label > span');
+      const labelText = label ? label.textContent : '原型图';
+      block.outerHTML = `<p style="border:1px dashed #999;padding:24px;text-align:center;color:#999;background:#fafafa;">${labelText}（待补充）</p>`;
+    }
+  });
+
+  // 把章节编号写死到标题里
+  let h2c = 0, h3c = 0, h4c = 0, h5c = 0, h6c = 0;
+  root.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
+    const tag = h.tagName.toLowerCase();
+    const noNum = h.classList.contains('no-number');
+    if (tag === 'h1') return;
+    let prefix = '';
+    if (tag === 'h2') {
+      if (!noNum) { h2c++; h3c = 0; h4c = 0; h5c = 0; h6c = 0; prefix = h2c + '. '; }
+    } else if (tag === 'h3') {
+      if (!noNum) { h3c++; h4c = 0; h5c = 0; h6c = 0; prefix = h2c + '.' + h3c + ' '; }
+    } else if (tag === 'h4') {
+      if (!noNum) { h4c++; h5c = 0; h6c = 0; prefix = h2c + '.' + h3c + '.' + h4c + ' '; }
+    } else if (tag === 'h5') {
+      if (!noNum) { h5c++; h6c = 0; prefix = h2c + '.' + h3c + '.' + h4c + '.' + h5c + ' '; }
+    } else if (tag === 'h6') {
+      if (!noNum) { h6c++; prefix = h2c + '.' + h3c + '.' + h4c + '.' + h5c + '.' + h6c + ' '; }
+    }
+    if (prefix) h.textContent = prefix + h.textContent;
+  });
+
+  // Word 友好的 CSS（不支持 flex/grid，简化为基础样式）
+  const wordCss = `
+    body { font-family: "微软雅黑", "PingFang SC", sans-serif; font-size: 11pt; line-height: 1.6; color: #1f2329; }
+    h1 { font-size: 24pt; font-weight: bold; text-align: center; border-bottom: 2pt solid #ddd; padding-bottom: 8pt; margin-bottom: 16pt; }
+    h2 { font-size: 16pt; font-weight: bold; color: #1456f0; border-left: 4pt solid #1456f0; padding-left: 8pt; margin-top: 24pt; margin-bottom: 8pt; }
+    h3 { font-size: 14pt; font-weight: bold; margin-top: 16pt; margin-bottom: 6pt; }
+    h4 { font-size: 12pt; font-weight: bold; margin-top: 12pt; margin-bottom: 4pt; }
+    h5 { font-size: 11pt; font-weight: bold; margin-top: 10pt; margin-bottom: 4pt; color: #4e5969; }
+    h6 { font-size: 11pt; font-weight: bold; margin-top: 8pt; margin-bottom: 4pt; color: #4e5969; }
+    p { margin: 4pt 0 8pt 0; }
+    ul, ol { margin: 4pt 0 8pt 24pt; }
+    li { margin-bottom: 3pt; }
+    table { border-collapse: collapse; width: 100%; margin: 8pt 0 12pt 0; }
+    table th, table td { border: 1pt solid #999; padding: 6pt 8pt; vertical-align: top; }
+    table th { background: #f0f0f0; font-weight: bold; }
+    .note { background: #fff7e8; border-left: 3pt solid #ff9a2e; padding: 8pt 12pt; margin: 8pt 0; }
+    .note-info { background: #e8f3ff; border-left: 3pt solid #1456f0; padding: 8pt 12pt; margin: 8pt 0; }
+    pre { background: #f5f5f5; padding: 8pt; border: 1pt solid #ddd; font-family: Consolas, monospace; font-size: 9pt; }
+    img { max-width: 100%; }
+    .table-section-row td { background: #f0f0f0; font-weight: bold; }
+    a { color: #1456f0; }
+  `;
+
+  // Word HTML 文档结构（带 MS Office 命名空间，Word 识别为原生文档）
+  const title = document.querySelector('h1').textContent.trim();
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<title>${title}</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page { size: A4; margin: 2cm 2.5cm; }
+${wordCss}
+</style>
+</head>
+<body>
+${root.innerHTML}
+</body>
+</html>`;
+
+  // 用 application/msword 让浏览器把它当作 .doc 下载
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const fileName = title.replace(/[\\/:*?"<>|]/g, '_');
+  a.href = url;
+  a.download = fileName + '.doc';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  setStatus('✓ Word 已导出', '#00b42a');
+  setTimeout(() => setStatus('就绪', '#86909c'), 2000);
+}
+
+function exportMarkdown() {
+  const root = document.getElementById('prd-content');
+  let md = '';
+  let h2c = 0, h3c = 0, h4c = 0, h5c = 0, h6c = 0;
+
+  function walk(node) {
+    for (const child of node.childNodes) {
+      if (child.nodeType === 3) { md += child.textContent; continue; }
+      if (child.nodeType !== 1) continue;
+      const tag = child.tagName.toLowerCase();
+      const text = child.textContent.trim();
+      const noNum = child.classList && child.classList.contains('no-number');
+
+      if (tag === 'h1') md += '# ' + text + '\n\n';
+      else if (tag === 'h2') {
+        if (!noNum) { h2c++; h3c = 0; h4c = 0; h5c = 0; h6c = 0; }
+        md += '## ' + (noNum ? '' : h2c + '. ') + text + '\n\n';
+      }
+      else if (tag === 'h3') {
+        if (!noNum) { h3c++; h4c = 0; h5c = 0; h6c = 0; }
+        md += '### ' + (noNum ? '' : h2c + '.' + h3c + ' ') + text + '\n\n';
+      }
+      else if (tag === 'h4') {
+        if (!noNum) { h4c++; h5c = 0; h6c = 0; }
+        md += '#### ' + (noNum ? '' : h2c + '.' + h3c + '.' + h4c + ' ') + text + '\n\n';
+      }
+      else if (tag === 'h5') {
+        if (!noNum) { h5c++; h6c = 0; }
+        md += '##### ' + (noNum ? '' : h2c + '.' + h3c + '.' + h4c + '.' + h5c + ' ') + text + '\n\n';
+      }
+      else if (tag === 'h6') {
+        if (!noNum) { h6c++; }
+        md += '###### ' + (noNum ? '' : h2c + '.' + h3c + '.' + h4c + '.' + h5c + '.' + h6c + ' ') + text + '\n\n';
+      }
+      else if (tag === 'p') md += text + '\n\n';
+      else if (tag === 'ul' || tag === 'ol') {
+        for (const li of child.querySelectorAll(':scope > li')) {
+          md += '- ' + li.textContent.trim() + '\n';
+        }
+        md += '\n';
+      }
+      else if (tag === 'div' && (child.classList.contains('note') || child.classList.contains('note-info'))) {
+        md += '> ' + text + '\n\n';
+      }
+      else if (tag === 'div' && child.classList.contains('prototype-block')) {
+        const img = child.querySelector('img.prototype-image');
+        const caption = child.querySelector('.prototype-caption');
+        const labelEl = child.querySelector('.prototype-label > span');
+        const label = labelEl ? labelEl.textContent.replace(/^📐\s*/, '') : '原型图';
+        if (img) {
+          const captionText = caption ? caption.textContent.trim() : label;
+          md += '![' + captionText + '](' + img.src + ')\n\n';
+        } else {
+          md += '> 📐 ' + label + '（待补充）\n\n';
+        }
+      }
+      else if (tag === 'div' && child.classList.contains('table-wrapper')) {
+        const table = child.querySelector('table');
+        if (table) {
+          const headers = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+          md += '| ' + headers.join(' | ') + ' |\n';
+          md += '|' + headers.map(() => '---').join('|') + '|\n';
+          for (const tr of table.querySelectorAll('tbody tr')) {
+            const tds = [...tr.querySelectorAll('td')];
+            if (tds.length === 1 && tds[0].colSpan > 1) {
+              md += '| **' + tds[0].textContent.trim() + '**' + ' |'.repeat(headers.length - 1) + '\n';
+            } else if (tds.length === headers.length) {
+              md += '| ' + tds.map(td => td.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, '<br>')).join(' | ') + ' |\n';
+            }
+          }
+          md += '\n';
+        }
+      }
+      else if (tag === 'pre') md += '```\n' + child.textContent + '\n```\n\n';
+      else if (tag === 'hr') md += '---\n\n';
+      else walk(child);
+    }
+  }
+  walk(root);
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const title = document.querySelector('h1').textContent.trim().replace(/[\\/:*?"<>|]/g, '_');
+  a.href = url;
+  a.download = title + '.md';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function resetTemplate() {
+  if (confirm('确定重置为初始模板？当前编辑内容（含图片）将丢失。')) {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+}
+</script>
+</body>
+</html>

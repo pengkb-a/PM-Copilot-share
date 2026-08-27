@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "feishu-doc": {
+      "command": "node",
+      "args": [
+        "feishu/mcp-server/index.mjs"
+      ]
+    }
+  }
+}

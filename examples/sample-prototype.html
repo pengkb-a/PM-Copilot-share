@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>积分兑换商城 · 原型示例</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #333; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .head { background: #2f54eb; color: #fff; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+  .head .points { font-size: 20px; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card { background: #fff; border-radius: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card .name { font-weight: 600; margin-bottom: 4px; }
+  .card .cost { color: #fa541c; font-weight: 600; }
+  .card .stock { font-size: 12px; color: #999; }
+  .btn { display: inline-block; margin-top: 8px; padding: 6px 14px; background: #2f54eb; color: #fff; border-radius: 4px; text-decoration: none; font-size: 14px; }
+  .btn.disabled { background: #ccc; pointer-events: none; }
+  .tab { display: flex; gap: 8px; margin-bottom: 12px; }
+  .tab a { text-decoration: none; color: #666; padding: 4px 10px; border-radius: 4px; }
+  .tab a.active { background: #2f54eb; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>我的积分</div>
+    <div class="points">12,800</div>
+  </div>
+  <div class="tab">
+    <a href="#" class="active">可兑换</a>
+    <a href="#">已兑完</a>
+    <a href="#">兑换记录</a>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="name">无线耳机</div>
+      <div class="cost">8,000 积分</div>
+      <div class="stock">库存 12</div>
+      <a class="btn" href="#">立即兑换</a>
+    </div>
+    <div class="card">
+      <div class="name">保温杯</div>
+      <div class="cost">2,400 积分</div>
+      <div class="stock">库存 0</div>
+      <a class="btn disabled" href="#">补货中</a>
+    </div>
+    <div class="card">
+      <div class="name">20 元券</div>
+      <div class="cost">3,000 积分</div>
+      <div class="stock">库存 30</div>
+      <a class="btn" href="#">立即兑换</a>
+    </div>
+    <div class="card">
+      <div class="name">电影票</div>
+      <div class="cost">5,000 积分</div>
+      <div class="stock">库存 8</div>
+      <a class="btn" href="#">立即兑换</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

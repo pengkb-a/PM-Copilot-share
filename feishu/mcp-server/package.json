@@ -1,0 +1,15 @@
+{
+  "name": "feishu-doc-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Feishu (Lark) document operations",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.0"
+  }
+}

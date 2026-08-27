@@ -1,0 +1,18 @@
+# Feishu credentials and tokens
+feishu/.env
+feishu/.feishu_token.json
+feishu/.menu_cache.json
+
+# Dependencies
+feishu/mcp-server/node_modules/
+
+# Local settings (machine-specific paths)
+.claude/settings.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+*.log

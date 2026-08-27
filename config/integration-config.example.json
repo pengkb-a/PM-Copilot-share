@@ -1,0 +1,16 @@
+{
+  "integrations": {
+    "feishu": {
+      "enabled": false,
+      "note": "启用前先完成 feishu/.env 配置与 `node feishu_doc.mjs login` 授权"
+    },
+    "notification": {
+      "enabled": false,
+      "note": "依赖 feishu/.env 的 FEISHU_BOT_WEBHOOK；启用后重型任务完成会发机器人通知"
+    },
+    "menuList": {
+      "enabled": false,
+      "note": "第二阶段能力；启用前需提供菜单清单表并配置 MENU_SPREADSHEET_TOKEN / MENU_SYSTEM_NAME"
+    }
+  }
+}
